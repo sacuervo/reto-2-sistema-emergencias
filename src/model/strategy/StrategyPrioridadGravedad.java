@@ -8,13 +8,13 @@ public class StrategyPrioridadGravedad implements IPrioridad {
     public int calcularPrioridad(Emergencia emergencia) {
         switch (emergencia.getNivelGravedad()) {
             case ALTO:
-                return 3;
+                return 1;
             case MEDIO:
                 return 2;
             case BAJO:
-                return 1;
+                return 3;
             default:
-                return 1;
+                return 3;
         }
     }
 
