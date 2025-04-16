@@ -1,0 +1,4 @@
+.vscode
+lib
+src/model/observer/
+*.class
