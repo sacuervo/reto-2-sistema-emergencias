@@ -1,6 +1,6 @@
 package model.services;
 
-import model.Emergencia;
+import model.factory.Emergencia;
 import model.interfaces.IServicioEmergencia;
 
 public abstract class ServicioEmergenciaBase implements IServicioEmergencia {

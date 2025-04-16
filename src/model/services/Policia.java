@@ -1,6 +1,6 @@
 package model.services;
 
-import model.Emergencia;
+import model.factory.Emergencia;
 
 public class Policia extends ServicioEmergenciaBase {
 

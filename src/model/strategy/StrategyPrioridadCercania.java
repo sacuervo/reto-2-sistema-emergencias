@@ -1,6 +1,6 @@
 package model.strategy;
 
-import model.Emergencia;
+import model.factory.Emergencia;
 
 public class StrategyPrioridadCercania implements IPrioridad {
 

@@ -1,6 +1,6 @@
 package model.interfaces;
 
-import model.Emergencia;
+import model.factory.Emergencia;
 
 public interface IServicioEmergencia {
 

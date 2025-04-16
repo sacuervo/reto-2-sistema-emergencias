@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import controller.SistemaEmergencias;
-import model.Emergencia;
-import model.FactoryEmergencias;
+import model.factory.Emergencia;
+import model.factory.FactoryEmergencias;
 import model.services.Ambulancia;
 import model.services.Bomberos;
 import model.services.Policia;
