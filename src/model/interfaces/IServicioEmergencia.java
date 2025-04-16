@@ -1,6 +1,6 @@
-package Clase_08_II.model.interfaces;
+package model.interfaces;
 
-import Clase_08_II.model.Emergencia;
+import model.Emergencia;
 
 public interface IServicioEmergencia {
 

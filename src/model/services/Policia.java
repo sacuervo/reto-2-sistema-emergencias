@@ -1,6 +1,6 @@
-package Clase_08_II.model.services;
+package model.services;
 
-import Clase_08_II.model.Emergencia;
+import model.Emergencia;
 
 public class Policia extends ServicioEmergenciaBase {
 

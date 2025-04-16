@@ -1,21 +1,21 @@
-package Clase_08_II.controller;
+package controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Clase_08_II.model.AccidenteVehicular;
-import Clase_08_II.model.Incendio;
-import Clase_08_II.model.Robo;
-import Clase_08_II.model.services.Ambulancia;
-import Clase_08_II.model.services.Bomberos;
-import Clase_08_II.model.services.Policia;
-import Clase_08_II.model.strategy.IPrioridad;
-import Clase_08_II.model.strategy.StrategyPrioridadGravedad;
-import Clase_08_II.model.Emergencia;
-import Clase_08_II.model.interfaces.IServicioEmergencia;
-import Clase_08_II.model.observer.ObserverEmergencias;
-import Clase_08_II.model.observer.SujetoEmergencias;
+import model.AccidenteVehicular;
+import model.Incendio;
+import model.Robo;
+import model.services.Ambulancia;
+import model.services.Bomberos;
+import model.services.Policia;
+import model.strategy.IPrioridad;
+import model.strategy.StrategyPrioridadGravedad;
+import model.Emergencia;
+import model.interfaces.IServicioEmergencia;
+import model.observer.ObserverEmergencias;
+import model.observer.SujetoEmergencias;
 
 public class SistemaEmergencias implements SujetoEmergencias {
 

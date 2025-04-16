@@ -1,7 +1,7 @@
-package Clase_08_II.model.services;
+package model.services;
 
-import Clase_08_II.model.Emergencia;
-import Clase_08_II.model.interfaces.IServicioEmergencia;
+import model.Emergencia;
+import model.interfaces.IServicioEmergencia;
 
 public abstract class ServicioEmergenciaBase implements IServicioEmergencia {
 

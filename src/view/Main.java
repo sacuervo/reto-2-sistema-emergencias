@@ -1,16 +1,16 @@
-package Clase_08_II.view;
+package view;
 
 import java.util.List;
 import java.util.Scanner;
 
-import Clase_08_II.controller.SistemaEmergencias;
-import Clase_08_II.model.Emergencia;
-import Clase_08_II.model.FactoryEmergencias;
-import Clase_08_II.model.services.Ambulancia;
-import Clase_08_II.model.services.Bomberos;
-import Clase_08_II.model.services.Policia;
-import Clase_08_II.utils.NivelGravedad;
-import Clase_08_II.utils.TipoEmergencia;
+import controller.SistemaEmergencias;
+import model.Emergencia;
+import model.FactoryEmergencias;
+import model.services.Ambulancia;
+import model.services.Bomberos;
+import model.services.Policia;
+import utils.NivelGravedad;
+import utils.TipoEmergencia;
 
 public class Main {
 

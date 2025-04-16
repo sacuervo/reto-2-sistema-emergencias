@@ -1,7 +1,7 @@
-package Clase_08_II.model;
+package model;
 
-import Clase_08_II.utils.NivelGravedad;
-import Clase_08_II.utils.TipoEmergencia;
+import utils.NivelGravedad;
+import utils.TipoEmergencia;
 
 public class FactoryEmergencias {
 
