@@ -91,16 +91,16 @@ reto-2-sistema-emergencias/
 
 ## Uso Básico
 
-1. Registrar emergencias
+### 1. Registrar emergencias
    Elige tipo, ubicación, nivel de gravedad y tiempo estimado de atención.
 
-2. Ver recursos
+### 2. Ver recursos
    Lista unidades de bomberos, ambulancias y policía con su disponibilidad.
 
-3. Atender emergencias
+### 3. Atender emergencias
    Selecciona el tipo de incidente y la estrategia de priorización (ubicación, gravedad o combinado).
 
-4. Estadísticas
+### 4. Estadísticas
    Muestra número de emergencias atendidas, tiempo promedio de respuesta y pendientes.
 
 5. Finalizar jornada
