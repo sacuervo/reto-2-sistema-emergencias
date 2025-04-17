@@ -15,7 +15,6 @@ Este proyecto es una aplicación de consola en Java para la gestión de emergenc
   - `model.factory.Emergencia` y sus subclases (`Incendio`, `AccidenteVehicular`, `Robo`)
   - `model.services.*` (recursos de atención)
   - `model.strategy.*` (módulo de cálculo de prioridad)
-  - `model.observer.*` (mecanismo de notificaciones internas)
 
 - **View**  
   Interfaz de usuario por consola:
@@ -34,9 +33,9 @@ Este proyecto es una aplicación de consola en Java para la gestión de emergenc
 
    - `model.factory.FactoryEmergencias`: crea instancias de `Emergencia` según el tipo seleccionado (robo, incendio, accidente).
 
-2. **Observer**
+2. **Singleton**
 
-   - `model.observer.SujetoEmergencias` y `model.observer.ObserverEmergencias`: notifican a los observadores cada vez que se registra una nueva emergencia.
+   - `controller.SistemaEmergencias`: Controlador centralizado como potencial recurso compartido dentro del sistema.
 
 3. **Strategy**
    - `model.strategy.IPrioridad`: interfaz común para calcular una puntuación de prioridad.
@@ -54,7 +53,6 @@ reto-2-sistema-emergencias/
 │   │   ├── factory/          # Clases de emergencia y Factory
 │   │   ├── services/         # Recursos de atención
 │   │   ├── strategy/         # Cálculo de prioridad
-│   │   └── observer/         # Observer/Subject
 │   ├── utils/                # Enumeraciones y helpers
 │   └── view/                 # Interfaz de consola
 ├── README.md
