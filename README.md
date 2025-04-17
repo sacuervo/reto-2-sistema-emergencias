@@ -88,6 +88,7 @@ reto-2-sistema-emergencias/
     java -cp bin view.Main
    
    ```
+---
 
 ## Uso Básico
 
@@ -103,5 +104,5 @@ reto-2-sistema-emergencias/
 ### 4. Estadísticas
    Muestra número de emergencias atendidas, tiempo promedio de respuesta y pendientes.
 
-5. Finalizar jornada
+### 5. Finalizar jornada
    Guarda (simulado) las estadísticas y reinicia el sistema para un nuevo ciclo.
