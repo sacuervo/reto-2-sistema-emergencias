@@ -1,14 +1,10 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import model.services.Ambulancia;
-import model.services.Bomberos;
-import model.services.Policia;
-import model.strategy.IPrioridad;
-import model.strategy.StrategyPrioridadGravedad;
 import model.factory.AccidenteVehicular;
 import model.factory.Emergencia;
 import model.factory.Incendio;
@@ -16,6 +12,13 @@ import model.factory.Robo;
 import model.interfaces.IServicioEmergencia;
 import model.observer.ObserverEmergencias;
 import model.observer.SujetoEmergencias;
+import model.services.Ambulancia;
+import model.services.Bomberos;
+import model.services.Policia;
+import model.strategy.IPrioridad;
+import model.strategy.StrategyPrioridadCercania;
+import model.strategy.StrategyPrioridadGravedad;
+import utils.TipoEmergencia;
 
 public class SistemaEmergencias implements SujetoEmergencias {
 
@@ -123,6 +126,83 @@ public class SistemaEmergencias implements SujetoEmergencias {
             }
         }
     }
+
+    /* ----------------------- PRIORIZACIÓN DE EMERGENCIAS ---------------------- */
+
+    /**
+     * Regresa una lista de hashmaps con información de los tipos de emergencias
+     * pendientes.
+     * 
+     * Cada hashmap contiene las llaves: id (entero, comienza desde 1), nombre
+     * (String) y tipo (TipoEmergencia).
+     * 
+     * @return a {@code List<HashMap<String, Object>>} Lista que almacena
+     *         información de los tipos de emergencias pendientes.
+     */
+    public List<HashMap<String, Object>> getTiposEmergenciasPendientes() {
+        List<TipoEmergencia> tiposUnicos = getEmergenciasPendientes().stream()
+                .map(Emergencia::getTipo)
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<HashMap<String, Object>> resultado = new ArrayList<>();
+        int id = 1;
+        for (TipoEmergencia tipo : tiposUnicos) {
+            HashMap<String, Object> mapa = new HashMap<>();
+            mapa.put("id", id++);
+            mapa.put("nombre", tipo.name());
+            mapa.put("tipo", tipo);
+            resultado.add(mapa);
+        }
+        return resultado;
+    }
+
+    /**
+     * Filtra las emergencias del método recibido y las ordena por prioridad. La
+     * prioridad es la suma del cálculo de la estrategia gravedad y la estrategia
+     * cercanía.
+     *
+     * @param tipo Tipo de emergencia que se quiere filtrar
+     * @return Una lista de emergencias pendientes por atender del mismo tipo
+     *         ordenadas por prioridad
+     */
+    public List<Emergencia> getEmergenciasPriorizadasPorTipo(TipoEmergencia tipo) {
+        StrategyPrioridadGravedad gravedad = new StrategyPrioridadGravedad();
+        StrategyPrioridadCercania cercania = new StrategyPrioridadCercania();
+
+        return getEmergenciasPendientes().stream()
+                .filter(e -> e.getTipo() == tipo)
+                .sorted(Comparator.comparingInt(e -> gravedad.calcularPrioridad(e) + cercania.calcularPrioridad(e)))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Prioriza las emergencias pendientes por ubicación utilizando la estrategia
+     * de cercanía.
+     *
+     * @return Una lista de emergencias pendientes ordenadas por cercanía.
+     */
+    public List<Emergencia> priorizarEmergenciasPorUbicacion() {
+        setEstrategiaPrioridad(new StrategyPrioridadCercania());
+        return getEmergenciasPendientes().stream()
+                .sorted(Comparator.comparingInt(strategyPrioridad::calcularPrioridad))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Prioriza las emergencias pendientes por gravedad utilizando la estrategia
+     * de gravedad.
+     *
+     * @return Una lista de emergencias pendientes ordenadas por gravedad.
+     */
+    public List<Emergencia> priorizarEmergenciasPorGravedad() {
+        setEstrategiaPrioridad(new StrategyPrioridadGravedad());
+        return getEmergenciasPendientes().stream()
+                .sorted(Comparator.comparingInt(strategyPrioridad::calcularPrioridad))
+                .collect(Collectors.toList());
+    }
+
+    /* -------------------------------------------------------------------------- */
 
     public void atenderEmergencia(Emergencia e) {
         if (e.isAtendida()) {
