@@ -1,5 +1,8 @@
 # Reto 2 – Sistema de Emergencias
+---
+:warning: El código del punto de partida en el commit [094ff40](https://github.com/sacuervo/reto-2-sistema-emergencias/commit/094ff403c367eaccf1589b92822453064fa60963), no es de mi autoría. Es código desarrollado por el Ing. Darwin Yebrail Solano Vivas de la academia Dev Senior, que yo estoy utilizando y ampliando con fines netamente académicos.
 
+**Descripción**
 Este proyecto es una aplicación de consola en Java para la gestión de emergencias. Permite registrar distintos tipos de incidentes (incendios, accidentes vehiculares y robos), priorizarlos según gravedad y cercanía, asignar recursos (bomberos, ambulancias, policía) y llevar estadísticas diarias.
 
 ---
