@@ -73,20 +73,20 @@ reto-2-sistema-emergencias/
 
    ```bash
    mkdir -p bin
-   ``
+  
    ```
 
 2. Compila todo el código fuente en `src/`
 
    ```bash
     javac -d bin $(find src -name "*.java")
-   ``
+   
    ```
 
 3. Ejecuta la aplicación:
    ```bash
     java -cp bin view.Main
-   ``
+   
    ```
 
 ## Uso Básico
