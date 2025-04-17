@@ -8,17 +8,17 @@ public class StrategyPrioridadCercania implements IPrioridad {
         public int calcularDistancia(String ubicacion) {
             switch (ubicacion.toLowerCase()) {
                 case "centro":
-                    return 2;
-                case "norte":
                     return 8;
+                case "norte":
+                    return 2;
                 case "sur":
-                    return 10;
+                    return 1;
                 case "este":
                     return 5;
                 case "oeste":
-                    return 6;
+                    return 4;
                 default:
-                    return 10;
+                    return 1;
             }
         }
     }
