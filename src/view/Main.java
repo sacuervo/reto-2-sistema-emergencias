@@ -1,9 +1,9 @@
 package view;
 
+import controller.SistemaEmergencias;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
-import controller.SistemaEmergencias;
 import model.factory.Emergencia;
 import model.factory.FactoryEmergencias;
 import model.services.Ambulancia;
@@ -136,20 +136,71 @@ public class Main {
             return;
         }
 
-        System.out.println("\n=== ATENDER EMERGENCIA ===");
-        for (int i = 0; i < pendientes.size(); i++) {
-            System.out.println((i + 1) + ". " + pendientes.get(i).toString());
+        List<HashMap<String, Object>> tiposEmergenciasPendientes = sistema.getTiposEmergenciasPendientes();
+
+        /*
+         * Si solo hay un tipo de emergencia pendiente, atenderla(s) emergencias
+         * automáticamente
+         */
+
+        if (tiposEmergenciasPendientes.size() == 1) {
+            for (Emergencia pendiente : pendientes) {
+                sistema.atenderEmergencia(pendiente);
+                return;
+            }
         }
-        System.out.print("Seleccione el número de la emergencia a atender: ");
-        int indice = Integer.parseInt(sc.nextLine()) - 1;
-        if (indice < 0 || indice >= pendientes.size()) {
-            System.out.println("Índice inválido.");
+
+        /*
+         * Preguntarle al usuario el tipo de emergencia que desea atender
+         */
+
+        System.out.println("\n=== ATENDER EMERGENCIA ===");
+        System.out.println("Seleccione el tipo de emergencia que desea atender: ");
+
+        for (HashMap<String, Object> tipoEmergenciaMap : tiposEmergenciasPendientes) {
+            System.out.printf("%d. %s%n", tipoEmergenciaMap.get("id"), tipoEmergenciaMap.get("nombre"));
+        }
+
+        Integer seleccionIdTipo = Integer.parseInt(sc.nextLine());
+        TipoEmergencia seleccionTipo = null;
+
+        for (HashMap<String, Object> tipoEmergenciaMap : tiposEmergenciasPendientes) {
+            if (tipoEmergenciaMap.get("id").equals(seleccionIdTipo)) {
+                seleccionTipo = (TipoEmergencia) tipoEmergenciaMap.get("tipo");
+                break;
+            }
+        }
+
+        if (seleccionTipo == null) {
+            System.out.println("Tipo de emergencia no encontrado.");
             return;
         }
 
-        Emergencia emergencia = pendientes.get(indice);
-        sistema.asignarRecursosAEmergencia(emergencia);
-        sistema.atenderEmergencia(emergencia);
+        /* Preguntar por la estrategia de priorización que se desea usar */
+        System.out.println("Seleccione la estrategia de priorización: 1. Por ubicación, 2. Por gravedad, 3. Combinado");
+
+        String eleccionEstrategia = sc.nextLine().trim();
+
+        /*
+         * Atender emergencias de la categoría indicada una por una en orden de
+         * prioridad
+         */
+
+        switch (eleccionEstrategia) {
+            case "1":
+                pendientes = sistema.priorizarEmergenciasPorUbicacion();
+            case "2":
+                pendientes = sistema.priorizarEmergenciasPorGravedad();
+            case "3":
+                pendientes = sistema.getEmergenciasPriorizadasPorTipo(seleccionTipo);
+                break;
+            default:
+                System.out.println("La estrategia de priorización no es válida.");
+                return;
+        }
+
+        sistema.atenderEmergencia(pendientes.get(0));
+
     }
 
 }
