@@ -139,11 +139,15 @@ public class Main {
         List<HashMap<String, Object>> tiposEmergenciasPendientes = sistema.getTiposEmergenciasPendientes();
 
         /*
-         * Si solo hay un tipo de emergencia pendiente, atenderla(s) emergencias
-         * automáticamente
+         * Si solo hay un tipo de emergencia pendiente, consultar estrategia de
+         * priorización directamente y atender primera en pila
          */
 
         if (tiposEmergenciasPendientes.size() == 1) {
+
+            pendientes = priorizarEmergencias(sistema, sistema.getEmergenciasPendientes(), sc,
+                    (TipoEmergencia) tiposEmergenciasPendientes.getFirst().get("tipo"));
+
             for (Emergencia pendiente : pendientes) {
                 sistema.atenderEmergencia(pendiente);
                 return;
@@ -163,35 +167,21 @@ public class Main {
         pendientes = sistema.getEmergenciasPriorizadasPorTipo(seleccionTipo);
 
         if (pendientes.size() == 1) {
-            sistema.atenderEmergencia(pendientes.get(0));
+            sistema.atenderEmergencia(pendientes.getFirst());
             return;
         }
 
-        /* Preguntar por la estrategia de priorización que se desea usar */
-        System.out.println("Seleccione la estrategia de priorización: 1. Por ubicación, 2. Por gravedad, 3. Combinado");
-
-        String eleccionEstrategia = sc.nextLine().trim();
-
         /*
-         * Atender emergencias de la categoría indicada una por una en orden de
-         * prioridad
+         * Preguntar por la estrategia de priorización que se desea usar
          */
 
-        switch (eleccionEstrategia) {
-            case "1":
-                pendientes = sistema.priorizarEmergenciasPorUbicacion();
-            case "2":
-                pendientes = sistema.priorizarEmergenciasPorGravedad();
-            case "3":
-                pendientes = sistema.getEmergenciasPriorizadasPorTipo(seleccionTipo);
-                break;
-            default:
-                System.out.println("La estrategia de priorización no es válida.");
-                return;
-        }
+        List<Emergencia> emergenciasPriorizadas = priorizarEmergencias(sistema, pendientes, sc, seleccionTipo);
 
-        sistema.atenderEmergencia(pendientes.get(0));
-
+        /*
+         * Atender la primera emergencia de la pila, según la estrategia que se haya
+         * elegido
+         */
+        sistema.atenderEmergencia(emergenciasPriorizadas.getFirst());
     }
 
     private static TipoEmergencia consultarTipoEmergencia(List<HashMap<String, Object>> tiposEmergenciasPendientes,
@@ -214,5 +204,32 @@ public class Main {
         }
 
         throw new IllegalArgumentException(String.format("La opción '%s' no fue encontrada", seleccionIdTipo));
+    }
+
+    private static List<Emergencia> priorizarEmergencias(SistemaEmergencias sistema, List<Emergencia> pendientes,
+            Scanner sc, TipoEmergencia seleccionTipo) {
+
+        System.out.println("Seleccione la estrategia de priorización: 1. Por ubicación, 2. Por gravedad, 3. Combinado");
+
+        String eleccionEstrategia = sc.nextLine().trim();
+
+        /*
+         * Atender emergencias de la categoría indicada una por una en orden de
+         * prioridad
+         */
+
+        switch (eleccionEstrategia) {
+            case "1" -> {
+                return sistema.priorizarEmergenciasPorUbicacion();
+            }
+            case "2" -> {
+                return sistema.priorizarEmergenciasPorGravedad();
+            }
+            case "3" -> {
+                return sistema.getEmergenciasPriorizadasPorTipo(seleccionTipo);
+            }
+            default -> throw new IllegalArgumentException("La estrategia de priorización no es válida");
+
+        }
     }
 }
