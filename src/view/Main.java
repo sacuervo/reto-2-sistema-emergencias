@@ -154,25 +154,16 @@ public class Main {
          * Preguntarle al usuario el tipo de emergencia que desea atender
          */
 
-        System.out.println("\n=== ATENDER EMERGENCIA ===");
-        System.out.println("Seleccione el tipo de emergencia que desea atender: ");
+        TipoEmergencia seleccionTipo = consultarTipoEmergencia(tiposEmergenciasPendientes, sc);
 
-        for (HashMap<String, Object> tipoEmergenciaMap : tiposEmergenciasPendientes) {
-            System.out.printf("%d. %s%n", tipoEmergenciaMap.get("id"), tipoEmergenciaMap.get("nombre"));
-        }
+        /*
+         * Si solo hay una estrategia del tipo, atender automáticamente
+         */
 
-        Integer seleccionIdTipo = Integer.parseInt(sc.nextLine());
-        TipoEmergencia seleccionTipo = null;
+        pendientes = sistema.getEmergenciasPriorizadasPorTipo(seleccionTipo);
 
-        for (HashMap<String, Object> tipoEmergenciaMap : tiposEmergenciasPendientes) {
-            if (tipoEmergenciaMap.get("id").equals(seleccionIdTipo)) {
-                seleccionTipo = (TipoEmergencia) tipoEmergenciaMap.get("tipo");
-                break;
-            }
-        }
-
-        if (seleccionTipo == null) {
-            System.out.println("Tipo de emergencia no encontrado.");
+        if (pendientes.size() == 1) {
+            sistema.atenderEmergencia(pendientes.get(0));
             return;
         }
 
@@ -203,4 +194,25 @@ public class Main {
 
     }
 
+    private static TipoEmergencia consultarTipoEmergencia(List<HashMap<String, Object>> tiposEmergenciasPendientes,
+            Scanner sc) {
+        System.out.println("\n=== ATENDER EMERGENCIA ===");
+        System.out.println("Seleccione el tipo de emergencia que desea atender: ");
+
+        for (HashMap<String, Object> tipoEmergenciaMap : tiposEmergenciasPendientes) {
+            System.out.printf("%d. %s%n", tipoEmergenciaMap.get("id"), tipoEmergenciaMap.get("nombre"));
+        }
+
+        Integer seleccionIdTipo = Integer.valueOf(sc.nextLine());
+        TipoEmergencia seleccionTipo = null;
+
+        for (HashMap<String, Object> tipoEmergenciaMap : tiposEmergenciasPendientes) {
+            if (tipoEmergenciaMap.get("id").equals(seleccionIdTipo)) {
+                seleccionTipo = (TipoEmergencia) tipoEmergenciaMap.get("tipo");
+                return seleccionTipo;
+            }
+        }
+
+        throw new IllegalArgumentException(String.format("La opción '%s' no fue encontrada", seleccionIdTipo));
+    }
 }
